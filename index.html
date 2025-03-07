@@ -1,0 +1,64 @@
+<html>
+    <head>
+       <link rel="stylesheet" href="index.css">
+       
+       <!-- google fonts Smythe import -->
+       <link rel="preconnect" href="https://fonts.googleapis.com">
+       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+       <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Smythe&display=swap" rel="stylesheet">
+
+    </head>
+    <body>
+        <main id="main-container">
+            <div id="header">
+                <div id="header-text">
+                    <h1>Jimmy's Diner</h1>
+                    <h2>The best burgers and pizzas in town</h2>
+                </div>
+            </div>
+            
+            <div id="item-container">
+                <!-- filling in items here from data.js, trying to maintain good practice for code readability as well as keeping in mind screen readers etc -->    
+            </div>
+            
+            <div id="your-order">
+                <!-- container for the Your Order section -->
+                <h3 id="order-header">Your Order</h3>
+                <div id="cart-container">
+                    <!-- filling in ordered items here -->
+                </div>
+                <div id="cart-total-container">
+                    <h3>Total Price:</h3>
+                    <h4 id="cart-total">$0</h4>
+                </div>
+                <button class="submit-btn" id="order-btn">Complete Order</button>
+            </div>
+            <div id="thanks-container">
+                <!-- div to hold thank you message after ordering -->
+                <!-- <h3>Message</h3> -->
+            </div>
+        </main>
+        
+        <div class="modal" id="modal">
+            <div class="close-modal-btn-container">
+                <button class="modal-close-btn" id="modal-close-btn">X</button>
+            </div>
+            <div class="modal-inner" id="modal-inner">
+                <h2 id="modal-heading">Enter card details</h2>
+                <form id="consent-form">
+                    <input type="text" name="fullName" placeholder="Enter your name" class="input-field" required/>
+                    <input type="number" id="ccn" inputmode="numeric" pattern="[0-9\s]{13,19}" 
+                    maxlength="19" placeholder="Enter card number" class="input-field" required>
+                    <input type="number" name="cvv" placeholder="Enter CVV" maxlength="3" 
+                    pattern="[0-9\s]{3}" class="input-field" required/>
+                    <div class="submit-btn" id="modal-choice-btns">
+                        <button type="submit" id="pay-btn" class="submit-btn">Pay</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+	    <script src="index.js" type="module"></script>
+    </body>
+</html>
+
