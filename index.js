@@ -1,5 +1,9 @@
 import menuArray from "/data.js"
 
+
+//trying to keep DRY coding practices in mind as well as incorporating modern JS code
+//TODO: need to add hovering over each button, possibly come back and update this with React
+
 const orderSection = document.getElementById('your-order')
 const itemContainer = document.getElementById('item-container')
 const cartContainer = document.getElementById('cart-container')
@@ -8,36 +12,36 @@ const consentForm = document.getElementById('consent-form')
 const popUp = document.getElementById('modal')
 const thanksContainer = document.getElementById('thanks-container')
 
+//setting cart and carID as lets to allow the cart to expand or contract as orders are added or removed
 let cart = []
 let cartId = 0
-// thanksContainer.style.display = 'none'
-// popUp.style.display = 'none'
-
-//trying to keep DRY coding practices in mind as well as incorporating modern JS code
 
 
 document.addEventListener("click", function(e){
     console.log("click!")
-    if (document.getElementById(e.target.id)){
-        document.getElementById(e.target.id).classList.contains("plus-button") ? addToCart(e.target.id) : console.log("not add menu button")
+    const elementById = document.getElementById(e.target.id)
+    
+    //checking for menu button press
+    if (elementById) {
+        elementById.classList.contains("plus-button") ? addToCart(e.target.id) : console.log("not add menu button")
     }   
-    if (document.getElementById(e.target.id)){
-        document.getElementById(e.target.id).classList.contains("remove-btn") ? removeFromCart(e.target.id) : console.log("not remove-btn")
+    //checking for remove from cart button press
+    if (elementById) {
+        elementById.classList.contains("remove-btn") ? removeFromCart(e.target.id) : console.log("not remove-btn")
     }
+    //checking for complete order button press
     if (e.target.id == 'order-btn') {
         // console.log("complete order clicked!")
         popUp.style.display = 'block'
     }
+    //checking for payment popup close button press
     if (e.target.id == 'modal-close-btn') {
         popUp.style.display = 'none'
     }
-    // if (e.target.id == 'pay-btn') {
-    //     popUp.style.display = 'none'
-    //     console.log('Thank you for paying!')
-    // }
     
     console.log("target =", e.target)
 })
+
 
 consentForm.addEventListener('submit', function(e){
     e.preventDefault()
@@ -85,29 +89,30 @@ function renderCart() {
     console.log("rendering cart")
     
     cartContainer.innerHTML = ''
-    if (cart.length > 0) {
-        //populating cart html
-        cart.forEach(item => {
-            console.log(item)
-            cartContainer.innerHTML += `
-            <div class="cart-items">
-                <div class="cart-item">
-                    <h3>${item.name}</h3>
-                    <button class="remove-btn" id="${item.id}">remove</button>
-                </div>
-                <div class="item-prices">
-                    <p>$${item.price}</p>
-                </div>
-            </div>`
-            cartTotal += item.price
-        })
-        cartTotalHtml.innerText = `$${cartTotal}`
-        //displaying cart
-        orderSection.style.display = "flex"
-    } else {
-        //hiding empty cart
+    
+    if (cart.length === 0) {
         orderSection.style.display = "none"
-    } 
+        return
+    }
+    //populating cart html
+    cart.forEach(item => {
+        console.log(item)
+        cartContainer.innerHTML += `
+        <div class="cart-items">
+            <div class="cart-item">
+                <h3>${item.name}</h3>
+                <button class="remove-btn" id="${item.id}">remove</button>
+            </div>
+            <div class="item-prices">
+                <p>$${item.price}</p>
+            </div>
+        </div>`
+        cartTotal += item.price
+    })
+    cartTotalHtml.innerText = `$${cartTotal}`
+    //displaying cart
+    orderSection.style.display = "flex"
+    
 }
 
 function addToCart(targetId) {
@@ -132,10 +137,12 @@ function removeFromCart(targetId) {
         return targetId == order.id
     }).name}`)
     
+    const cartIndex = cart.findIndex(order =>targetId == order.id)
+    
     // someArray.splice(x, 1) removes x position from the array
     console.log(`trying to remove index:${cart.findIndex(order =>targetId == order.id)}`)
     
-    cart.splice(cart.findIndex(order =>targetId == order.id),1)
+    cart.splice(cartIndex,1)
     renderCart()
 }
 
